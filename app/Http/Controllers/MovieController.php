@@ -12,36 +12,31 @@ use Illuminate\Support\Facades\File;
 
 class MovieController extends Controller
 {
-    // Show all movies
-    public function index()
+    public function index() // Show all movies
     {
         return view('movies.index', [
             'movies' => Movie::latest()->filter(request(['tag', 'search']))->paginate(6)
         ]);
     }
 
-    // Show single movie
-    public function show(Movie $movie)
+    public function show(Movie $movie) // Show single movie
     {
         return view('movies.show', [
             'movie' => $movie
         ]);
     }
 
-    // Manage Movies
-    public function manage()
+    public function manage() // Manage Movies
     {
         return view('movies.manage', ['movies' => Movie::latest()->paginate(6)]);
     }
 
-    //Show Edit Form
-    public function edit(Movie $movie)
+    public function edit(Movie $movie) // Show Edit Form
     {
         return view('movies.edit', ['movie' => $movie]);
     }
 
-    // Update Movie
-    public function update(Request $request, Movie $movie)
+    public function update(Request $request, Movie $movie) // Update Movie
     {
         $formFields = $request->validate([
             'title' => 'required',
@@ -61,16 +56,13 @@ class MovieController extends Controller
         return redirect()->route('movies.manage');
     }
 
-
-    // Show Movie Create Form
-    public function create()
+    public function create() // Show Movie Create Form
     {
         $actors = Actor::all();
         return view('movies.create', ['actors' => $actors]);
     }
 
-    // Store movie data
-    public function store(Request $request)
+    public function store(Request $request) // Store movie data
     {
         $formFields = $request->validate([
             'title' => 'required',
@@ -85,28 +77,25 @@ class MovieController extends Controller
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
-        $movie = Movie::create($formFields);
+        Movie::create($formFields);
 
-        return redirect('/cms/movies/managemovies');
+        return redirect()->route('movies.manage');
     }
 
-    // Delete Movie
-    public function destroy(Movie $movie)
+    public function destroy(Movie $movie) // Delete Movie
     {
         File::delete(public_path('storage/' . $movie->logo));
         $movie->delete();
-        return redirect('/cms/movies/managemovies');
+        return redirect()->route('movies.manage');
     }
 
-    // Show Add/Edit Cast Form
-    public function addEditActorsForm(Movie $movie)
+    public function addEditActorsForm(Movie $movie) // Show Add/Edit Actors Form
     {
         $actors = Actor::all();
         return view('movies.cast-edit', ['movie' => $movie, 'actors' => $actors]);
     }
 
-    // Show Add/Edit Cast Form
-    public function addEditActors(Request $request, Movie $movie)
+    public function addEditActors(Request $request, Movie $movie) // Add/Edit Actors
     {
         $formFields = $request->validate([
             'character_name' => 'required',
@@ -119,18 +108,16 @@ class MovieController extends Controller
             return redirect('/cms/movies/' . $movie->id . '/actors');
         $movie->actors()->attach(Actor::find($actor_id), ['character_name' => $character_name]);
 
-        return redirect('/cms/movies/' . $movie->id . '/actors');
+        return redirect()->route('movies.addEditActors', ['movie' => $movie->id]);
     }
 
-    // Show Add/Edit Category Form
-    public function addEditCategoriesForm(Movie $movie)
+    public function addEditCategoriesForm(Movie $movie) // Show Add/Edit Category Form
     {
         $categories = Category::all();
         return view('movies.category-edit', ['movie' => $movie, 'categories' => $categories]);
     }
 
-    // Show Add/Edit Category Form
-    public function addEditCategories(Request $request, Movie $movie)
+    public function addEditCategories(Request $request, Movie $movie) // Add/Edit Category 
     {
         $category_id = $request->input('id');
         $hasCategory = $movie->categories()->where('category_id', $category_id)->exists();
@@ -138,17 +125,15 @@ class MovieController extends Controller
             return redirect('/cms/movies/' . $movie->id . '/categories');
         $movie->categories()->attach(Category::find($category_id));
 
-        return redirect('/cms/movies/' . $movie->id . '/categories');
+        return redirect()->route('movies.addEditCategories', ['movie' => $movie->id]);
     }
 
-    //Show Rate Form
-    public function rate(Movie $movie)
+    public function rate(Movie $movie) //Show Rate Form
     {
         return view('movies.rate', ['movie' => $movie]);
     }
 
-    // Add Rating of the movie
-    public function addRating(Request $request, Movie $movie)
+    public function addRating(Request $request, Movie $movie) // Add Rating of the movie
     {
         $rating = $request->input('rating');
         $hasRating = $movie->users()->where('user_id', Auth::id())->exists();
@@ -161,11 +146,6 @@ class MovieController extends Controller
         $movie['rating'] = $movie->users()->avg('rating');
         $movie->save();
 
-        return redirect('/movies//' . $movie->id);
+        return redirect()->route('movies.show', ['movie' => $movie->id]);
     }
 }
-
-
-
-
-// $project->user()->attach($users)

@@ -10,16 +10,13 @@ use App\Jobs\SendResetPassMailJob;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
-
 {
-    // Show Register/Create Form
-    public function create()
+    public function create() // Show Register/Create Form
     {
         return view('users.register');
     }
 
-    // Create New User
-    public function store(Request $request)
+    public function store(Request $request) // Create New User
     {
         $formFields = $request->validate([
             'name' => ['required', 'min:3'],
@@ -27,37 +24,27 @@ class UserController extends Controller
             'password' => ['required', 'confirmed', 'min:6']
         ]);
 
-        // Hash Password
         $formFields['password'] = Hash::make($formFields['password']);
-
-        // Create User
         $user = User::create($formFields);
-
-        // Login
         auth()->login($user);
-
-        return redirect('/');
+        return redirect()->route('movies.all');
     }
 
-    // Logout User
-    public function logout(Request $request)
+
+    public function logout(Request $request) // Logout User
     {
         auth()->logout();
-
         $request->session()->invalidate();
         $request->session()->regenerate();
-
-        return redirect('/');
+        return redirect()->route('movies.all');
     }
 
-    // Show Login Form
-    public function login()
+    public function login() // Show Login Form
     {
         return view('users.login');
     }
 
-    // Authenticate User
-    public function authenticate(Request $request)
+    public function authenticate(Request $request) // Authenticate User
     {
         $formFields = $request->validate([
             'email' => ['required', 'email'],
@@ -67,20 +54,18 @@ class UserController extends Controller
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
 
-            return redirect('/');
+            return redirect()->route('movies.all');
         }
 
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
 
-    // forgot password Form
-    public function forgotPasswordForm()
+    public function forgotPasswordForm() // forgot password Form
     {
         return view('users.forgot-password');
     }
 
-    // forgot password
-    public function forgotPassword(Request $request)
+    public function forgotPassword(Request $request) // forgot password
     {
         $user = User::where('email', $request['email'])->first();
         if ($user->exists()) {
@@ -89,6 +74,6 @@ class UserController extends Controller
             $user->save();
             dispatch(new SendResetPassMailJob($user, $new_password));
         }
-        return redirect('/login');
+        return redirect()->route('users.login');
     }
 }
