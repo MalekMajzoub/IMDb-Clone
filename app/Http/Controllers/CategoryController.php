@@ -7,20 +7,17 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    // Manage Listing
-    public function manage()
+    public function manage() // Manage Listing
     {
         return view('categories.manage', ['categories' => Category::all()]);
     }
 
-    // Show Movie Create Form
-    public function create()
+    public function create() // Show Movie Create Form
     {
         return view('categories.create');
     }
 
-    // Store movie data
-    public function store(Request $request)
+    public function store(Request $request) // Store movie data
     {
         $formFields = $request->validate([
             'title' => 'required',
@@ -28,17 +25,15 @@ class CategoryController extends Controller
 
         Category::create($formFields);
 
-        return redirect('/cms/categories/managecategories');
+        return redirect()->route('categories.manage');
     }
 
-    //Show Edit Form
-    public function edit(Category $category)
+    public function edit(Category $category) //Show Edit Form
     {
         return view('categories.edit', ['category' => $category]);
     }
 
-    // Update Movie
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Category $category) // Update Movie
     {
         $formFields = $request->validate([
             'title' => 'required',
@@ -46,13 +41,12 @@ class CategoryController extends Controller
 
         $category->update($formFields);
 
-        return redirect('/cms/categories/managecategories');
+        return redirect()->route('categories.manage');
     }
 
-    // Delete Category
-    public function destroy(Category $category)
+    public function destroy(Category $category) // Delete Category
     {
         $category->delete();
-        return redirect('/cms/categories/managecategories');
+        return redirect()->route('categories.manage');
     }
 }

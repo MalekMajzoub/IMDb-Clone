@@ -7,20 +7,17 @@ use Illuminate\Http\Request;
 
 class ActorController extends Controller
 {
-    // Manage Actors
-    public function manage()
+    public function manage() // Manage Actors
     {
         return view('actors.manage', ['actors' => Actor::all()]);
     }
 
-    // Show Actor Create Form
-    public function create()
+    public function create() // Show Actor Create Form
     {
         return view('actors.create');
     }
 
-    // Store actor data
-    public function store(Request $request)
+    public function store(Request $request) // Store actor data
     {
         $formFields = $request->validate([
             'first_name' => 'required',
@@ -37,17 +34,15 @@ class ActorController extends Controller
 
         Actor::create($formFields);
 
-        return redirect('/cms/actors/manageactors');
+        return redirect()->route('actors.manage');
     }
 
-    //Show Edit Form
-    public function edit(Actor $actor)
+    public function edit(Actor $actor) //Show Edit Form
     {
         return view('actors.edit', ['actor' => $actor]);
     }
 
-    // Update Movie
-    public function update(Request $request, Actor $actor)
+    public function update(Request $request, Actor $actor) // Update Movie
     {
         $formFields = $request->validate([
             'first_name' => 'required',
@@ -64,13 +59,12 @@ class ActorController extends Controller
 
         $actor->update($formFields);
 
-        return redirect('/cms/actors/manageactors');
+        return redirect()->route('actors.manage');
     }
 
-    // Delete Category
-    public function destroy(Actor $actor)
+    public function destroy(Actor $actor) // Delete Category
     {
         $actor->delete();
-        return redirect('/cms/actors/manageactors');
+        return redirect()->route('actors.manage');
     }
 }
