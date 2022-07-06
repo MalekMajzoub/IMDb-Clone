@@ -6,7 +6,7 @@
             </h2>
         </header>
 
-        <form method="POST" action="/cms/movies/store" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('movies.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-2">
@@ -113,7 +113,7 @@
                     Add Movie
                 </button>
 
-                <a href="/cms/movies/managemovies" class="text-black ml-4"> Back </a>
+                <a href="{{ route('movies.manage') }}" class="text-black ml-4"> Back </a>
             </div>
         </form>
     </x-card>

@@ -7,7 +7,7 @@
             <p class="mb-4">Edit: {{ $movie->title }}</p>
         </header>
 
-        <form method="POST" action="/cms/movies/{{ $movie->id }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('movies.update', ['movie' => $movie->id]) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-6">
@@ -117,7 +117,7 @@
             <div class="mb-6">
                 <button class="bg-yellow-500 text-white rounded py-2 px-4 hover:bg-black">Update Movie</button>
 
-                <a href="/cms/movies/managemovies" class="text-black ml-4"> Back </a>
+                <a href="{{ route('movies.manage') }}" class="text-black ml-4"> Back </a>
             </div>
         </form>
     </x-card>

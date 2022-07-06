@@ -20,25 +20,28 @@
                     </td>
 
                     <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                        {{ $movie->title }}
+                        <a href="{{ route('movies.show', ['movie' => $movie->id]) }}" class="text-blue-400 px-6 py-2 rounded-xl">
+                            {{ $movie->title }}
+                        </a>
+                        
                     </td>
                     <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                        <a href="/cms/movies/{{ $movie->id }}/actors" class="text-blue-400 px-6 py-2 rounded-xl">
+                        <a href="{{ route('movies.addEditActorsForm', ['movie' => $movie->id]) }}" class="text-blue-400 px-6 py-2 rounded-xl">
                             <i class="fa-solid fa-pen-to-square"></i> Add/Edit Cast
                         </a>
                     </td>
                     <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                        <a href="/cms/movies/{{ $movie->id }}/categories" class="text-blue-400 px-6 py-2 rounded-xl">
+                        <a href="{{ route('movies.addEditCategoriesForm', ['movie' => $movie->id]) }}" class="text-blue-400 px-6 py-2 rounded-xl">
                             <i class="fa-solid fa-pen-to-square"></i> Add/Edit Category
                         </a>
                     </td>
                     <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                        <a href="/cms/movies/{{ $movie->id }}/edit" class="text-blue-400 px-6 py-2 rounded-xl">
+                        <a href="{{ route('movies.edit', ['movie' => $movie->id]) }}" class="text-blue-400 px-6 py-2 rounded-xl">
                             <i class="fa-solid fa-pen-to-square"></i> Edit
                         </a>
                     </td>
                     <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                        <form method="POST" action="/cms/movies/{{ $movie->id }}">
+                        <form method="POST" action="{{ route('movies.destroy', ['movie' => $movie->id]) }}">
                         @csrf
                         @method('DELETE')
                         <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
@@ -57,7 +60,7 @@
         </table>
     </x-card>
     <x-card class="mt-4 p-2 px-10 flex space-x-6">
-        <a href="/cms/movies/create">
+        <a href="{{ route('movies.create') }}">
             <i class='fa fa-plus' style='color: #19a922'></i> Add
         </a>
     </x-card>

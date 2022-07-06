@@ -7,7 +7,7 @@
             <p class="mb-4">Add/Edit Category for: {{ $movie->title }}</p>
         </header>
 
-        <form method="POST" action="/cms/movies/{{ $movie->id }}/categories" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('movies.addEditCategories', ['movie' => $movie->id]) }}" enctype="multipart/form-data">
             @csrf
             <div class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0">
                 <div class="inline-block relative w-56 ">
@@ -33,16 +33,22 @@
                     Add/Edit Category
                 </button>
 
-                <a href="/cms/movies/managemovies" class="text-black ml-4"> Back </a>
+                <a href="{{ route('movies.manage') }}" class="text-black ml-4"> Back </a>
             </div>
-
+        </form>
             <div>
                 <ul>
                 @foreach ($movie->categories as $category)
+                <div class="flex justify-between">
                     <li class="text-lg font-bold">{{ $category->title }}</span></li>
+                        <form method="POST" action="{{ route('movies.destroyCategories', ['movie' => $movie->id, 'category' => $category->id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button> <i class="fa-solid fa-trash" style='color: #9c1f1f'></i> Delete </button>
+                        </form>
+                </div>
                 @endforeach
                 </ul>
             </div>
-        </form>
     </x-card>
 </x-layout>

@@ -53,8 +53,11 @@ class UserController extends Controller
 
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
-
-            return redirect()->route('movies.all');
+            if (auth()->user()->hasRole('admin')) {
+                return redirect()->route('movies.manage');
+            } else {
+                return redirect()->route('movies.all');
+            }
         }
 
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');

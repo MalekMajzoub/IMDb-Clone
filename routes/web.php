@@ -17,8 +17,10 @@ Route::group(['middleware' => 'role:admin', 'prefix' => 'cms'], function () {
         Route::delete('/{movie}', 'destroy')->name('destroy'); // Delete Movie
         Route::get('/{movie}/actors', 'addEditActorsForm')->name('addEditActorsForm'); // Show Add/Edit Cast Form
         Route::post('/{movie}/actors', 'addEditActors')->name('addEditActors'); // Add/Edit Actors of Movies
+        Route::delete('/{movie}/{actor}/actor', 'destroyActors')->name('destroyActors'); // Delete Actors of Movies
         Route::get('/{movie}/categories', 'addEditCategoriesForm')->name('addEditCategoriesForm'); // Show Add/Edit Cast Form
         Route::post('/{movie}/categories', 'addEditCategories')->name('addEditCategories'); // Add/Edit Categories of Movies
+        Route::delete('/{movie}/{category}/category', 'destroyCategories')->name('destroyCategories'); // Delete Categories of Movies
     });
 
     Route::group(['controller' => CategoryController::class, 'prefix' => 'categories', 'as' => 'categories.'], function () {
@@ -48,13 +50,13 @@ Route::group(['controller' => MovieController::class, 'as' => 'movies.'], functi
 });
 
 Route::group(['controller' => UserController::class, 'as' => 'users.'], function () {
-    Route::get('/register', 'create')->middleware('guest'); // Show Register/Create Form
-    Route::post('/users', 'store'); // Create New User
-    Route::get('/login', 'login')->name('login')->middleware('guest'); // Show Login Form
-    Route::post('/logout', 'logout')->middleware('auth'); // Log User Out
-    Route::post('/users/authenticate', 'authenticate'); // Login User
-    Route::get('/users/forgotpasswordform', 'forgotPasswordForm'); // Show Forgot Password Form 
-    Route::post('/users/forgotpassword', 'forgotPassword'); // Forgot Password Form
+    Route::get('/register', 'create')->middleware('guest')->name('register'); // Show Register/Create Form
+    Route::post('/users', 'store')->name('store'); // Create New User
+    Route::get('/login', 'login')->middleware('guest')->name('login'); // Show Login Form
+    Route::post('/logout', 'logout')->middleware('auth')->name('logout'); // Log User Out
+    Route::post('/users/authenticate', 'authenticate')->name('authenticate'); // Login User
+    Route::get('/users/forgotpasswordform', 'forgotPasswordForm')->name('forgotPasswordForm'); // Show Forgot Password Form 
+    Route::post('/users/forgotpassword', 'forgotPassword')->name('forgotPassword'); // Forgot Password Form
 });
 
 // No URL Found

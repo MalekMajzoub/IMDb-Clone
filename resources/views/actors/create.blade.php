@@ -6,7 +6,7 @@
             </h2>
         </header>
 
-        <form method="POST" action="/cms/actors/store" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('actors.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-6">
@@ -95,7 +95,7 @@
                     Add Actor
                 </button>
 
-                <a href="/cms/actors/manageactors" class="text-black ml-4"> Back </a>
+                <a href="{{ route('actors.manage') }}" class="text-black ml-4"> Back </a>
             </div>
         </form>
     </x-card>

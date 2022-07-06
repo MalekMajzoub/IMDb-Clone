@@ -1,8 +1,13 @@
 <x-layout>
-
-<a href="/" class="inline-block text-black ml-4 mb-4">
-    <i class="fa-solid fa-arrow-left"></i> Back
+    @role('admin')
+    <a href="{{ route('movies.manage') }}" class="inline-block text-black ml-4 mb-4">
+        <i class="fa-solid fa-arrow-left"></i> Back
     </a>
+    @else
+    <a href="{{ route('movies.all') }}" class="inline-block text-black ml-4 mb-4">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </a>
+    @endunlessrole
     <div class="mx-4">
         <x-card class="p-10">
             <div class="flex flex-col items-center justify-center text-center">
@@ -52,11 +57,12 @@
                 </div>
             </div>
         </x-card>
-
+        @unlessrole('admin')
         <x-card class="mt-4 p-2 flex space-x-6">
-            <a href="/movies/{{ $movie->id }}/rate">
+            <a href="{{ route('movies.rate', ['movie' => $movie->id]) }}/rate}}">
                 <i class='fa fa-star' style='color: #ecbb21'></i> Rate
             </a>
         </x-card>
+        @endunlessrole
     </div>
 </x-layout>

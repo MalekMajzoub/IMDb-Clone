@@ -7,7 +7,7 @@
                         <p class="mb-4">Edit: {{ $category->title }}</p>
                     </header>
 
-                    <form method="POST" action="/cms/categories/{{ $category->id }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('categories.update', ['category' => $category->id]) }}}}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="mb-6">
@@ -35,7 +35,7 @@
                                 Update Category
                             </button>
 
-                            <a href="/cms/categories/managecategories" class="text-black ml-4"> Back </a>
+                            <a href="{{ route('categories.manage') }}" class="text-black ml-4"> Back </a>
                         </div>
                     </form>
                 </x-card>

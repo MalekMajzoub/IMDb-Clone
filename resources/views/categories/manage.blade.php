@@ -1,9 +1,7 @@
 <x-layout>
     <x-card class="p-10">
                     <header>
-                        <h1
-                            class="text-3xl text-center font-bold my-6 uppercase"
-                        >
+                        <h1 class="text-3xl text-center font-bold my-6 uppercase">
                             Manage Categories
                         </h1>
                     </header>
@@ -14,27 +12,20 @@
                             @foreach ($categories as $category)
                             
                             <tr class="border-gray-300">
-                                <td
-                                    class="px-4 py-8 border-t border-b border-gray-300 text-lg"
-                                >
+                                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                                     {{ $category->title }}
                                 </td>
-                                <td
-                                    class="px-4 py-8 border-t border-b border-gray-300 text-lg"
-                                >
+                                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
                                     <a
-                                        href="/cms/categories/{{ $category->id }}/edit"
+                                        href="{{ route('categories.edit', ['category' => $category->id])}}"
                                         class="text-blue-400 px-6 py-2 rounded-xl"
-                                        ><i
-                                            class="fa-solid fa-pen-to-square"
-                                        ></i>
-                                        Edit</a
-                                    >
+                                        >
+                                        <i class="fa-solid fa-pen-to-square" ></i>
+                                        Edit
+                                    </a >
                                 </td>
-                                <td
-                                    class="px-4 py-8 border-t border-b border-gray-300 text-lg"
-                                >
-                                    <form method="POST" action="/cms/categories/{{ $category->id }}">
+                                <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                                    <form method="POST" action="{{ route('categories.destroy', ['category' => $category->id]) }}}}">
                                     @csrf
                                     @method('DELETE')
                                     <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
@@ -54,7 +45,7 @@
                 </x-card>
 
                 <x-card class="mt-4 p-2 px-10 flex space-x-6">
-                    <a href="/cms/categories/create">
+                    <a href="{{ route('categories.create') }}">
                         <i class='fa fa-plus' style='color: #19a922'></i> Add
                     </a>
                 </x-card>

@@ -97,18 +97,24 @@ class MovieController extends Controller
 
     public function addEditActors(Request $request, Movie $movie) // Add/Edit Actors
     {
-        $formFields = $request->validate([
+        $request->validate([
             'character_name' => 'required',
         ]);
 
         $actor_id = $request->input('id');
         $character_name = $request->input('character_name');
-        $hasActor = $movie->actors()->where('actor_id', $actor_id)->exists();
-        if ($hasActor)
-            return redirect('/cms/movies/' . $movie->id . '/actors');
+        // $hasActor = $movie->actors()->where('actor_id', $actor_id)->exists();
+        // if ($hasActor)
+        //     return redirect('/cms/movies/' . $movie->id . '/actors');
         $movie->actors()->attach(Actor::find($actor_id), ['character_name' => $character_name]);
 
-        return redirect()->route('movies.addEditActors', ['movie' => $movie->id]);
+        return redirect()->route('movies.addEditActorsForm', ['movie' => $movie->id]);
+    }
+
+    public function destroyActors(Movie $movie, Actor $actor)
+    {
+        $movie->actors()->detach(Actor::find($actor->id));
+        return redirect()->route('movies.addEditActorsForm', ['movie' => $movie->id]);
     }
 
     public function addEditCategoriesForm(Movie $movie) // Show Add/Edit Category Form
@@ -126,6 +132,12 @@ class MovieController extends Controller
         $movie->categories()->attach(Category::find($category_id));
 
         return redirect()->route('movies.addEditCategories', ['movie' => $movie->id]);
+    }
+
+    public function destroyCategories(Movie $movie, Category $category)
+    {
+        $movie->categories()->detach(Category::find($category->id));
+        return redirect()->route('movies.addEditCategoriesForm', ['movie' => $movie->id]);
     }
 
     public function rate(Movie $movie) //Show Rate Form

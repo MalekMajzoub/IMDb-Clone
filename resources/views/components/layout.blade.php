@@ -17,9 +17,11 @@
     </head>
     <body class="mb-48" flex>
         <nav class="flex justify-between items-center mb-4">
-            <a href="/"
-                ><img class="w-24" src="{{ asset('images/logo.png') }}" alt="" class="logo"
-            /></a>
+            @unlessrole('admin')
+            <a href="/">
+                <img class="w-24" src="{{ asset('images/logo.png') }}" alt="" class="logo"/>
+            </a>
+            @endunlessrole
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
                 <li>
@@ -29,26 +31,26 @@
                 </li>
                 @role('admin')
                 <li>
-                    <a href="/cms/movies/managemovies" class="hover:text-yellow-500"
-                        ><i class="fa-solid fa-gear"></i>
-                        Manage Movies</a
-                    >
+                    <a href="{{ route('movies.manage') }}" class="hover:text-yellow-500">
+                        <i class="fa-solid fa-gear"></i>
+                        Manage Movies
+                    </a>
                 </li>
                 <li>
-                    <a href="/cms/categories/managecategories" class="hover:text-yellow-500"
-                        ><i class="fa-solid fa-gear"></i>
+                    <a href="{{ route('categories.manage') }}" class="hover:text-yellow-500">
+                        <i class="fa-solid fa-gear"></i>
                         Manage Categories
                     </a>
                 </li>
                 <li>
-                    <a href="/cms/actors/manageactors" class="hover:text-yellow-500"
-                        ><i class="fa-solid fa-gear"></i>
+                    <a href="{{ route('actors.manage') }}" class="hover:text-yellow-500">
+                        <i class="fa-solid fa-gear"></i>
                         Manage Actors
                     </a>
                 </li>
                 @endrole
                 <li>
-                    <form class="inline" method="POST" action="/logout">
+                    <form class="inline" method="POST" action="{{ route('users.logout') }}">
                         @csrf
                         <button type="submit">
                             <i class="fa-solid fa-door-closed"></i> Logout
@@ -58,13 +60,13 @@
                 @else
 
                 <li>
-                    <a href="/register" class="hover:text-yellow-500"
+                    <a href="{{ route('users.register') }}" class="hover:text-yellow-500"
                         ><i class="fa-solid fa-user-plus"></i> Register</a
                     >
                 </li>
                 <li>
-                    <a href="/login" class="hover:text-yellow-500"
-                        ><i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    <a href="{{ route('users.login') }}" class="hover:text-yellow-500">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
                         Login
                     </a>
                 </li>

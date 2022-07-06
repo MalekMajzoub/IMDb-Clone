@@ -7,7 +7,7 @@
             <p class="mb-4">Login into your account to rate movies</p>
         </header>
 
-        <form method="POST" action="/users/authenticate">
+        <form method="POST" action="{{ route('users.authenticate') }}">
             @csrf
             <div class="mb-6">
                 <label for="email" class="inline-block text-lg mb-2">Email</label>
@@ -41,12 +41,12 @@
             <div class="mt-8">
                 <p>
                     Don't have an account?
-                    <a href="/register" class="text-yellow-600 font-bold">Register</a>
+                    <a href="{{ route('users.register') }}" class="text-yellow-600 font-bold">Register</a>
                 </p>
             </div>
             <div class="mt-8">
                 <p>
-                    <a href="/users/forgotpasswordform" class="text-yellow-600 font-bold">Forgot your password?</a>
+                    <a href="{{ route('users.forgotPasswordForm') }}" class="text-yellow-600 font-bold">Forgot your password?</a>
                 </p>
             </div>
         </form>

@@ -7,7 +7,7 @@
             <p class="mb-4">Edit: {{ $actor->first_name }} {{ $actor->last_name }} </p>
         </header>
 
-        <form method="POST" action="/cms/actors/{{ $actor->id }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('actors.update', ['actor' => $actor->id]) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-6">
@@ -102,7 +102,7 @@
                     Edit Actor
                 </button>
 
-                <a href="/cms/actors/manageactors" class="text-black ml-4"> Back </a>
+                <a href="{{ route('actors.manage') }}" class="text-black ml-4"> Back </a>
             </div>
         </form>
     </x-card>

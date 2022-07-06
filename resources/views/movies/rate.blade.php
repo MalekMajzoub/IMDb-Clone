@@ -7,7 +7,7 @@
             <p class="mb-4">Rate: {{ $movie->title }}</p>
         </header>
 
-        <form method="POST" action="/movies/{{ $movie->id }}/addRating" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('movies.addRating', ['movie' => $movie->id]) }}/addRating}}" enctype="multipart/form-data">
             @csrf
             <div class="mb-6" flex>
                 <label
@@ -52,7 +52,7 @@
                         Add Rating
                     </button>
 
-                    <a href="/movies/{{ $movie->id }}" class="text-black ml-4"> Back </a>
+                    <a href="{{ route('movies.show', ['movie' => $movie->id]) }}}}" class="text-black ml-4"> Back </a>
                 </div>
             </div>
         </form>

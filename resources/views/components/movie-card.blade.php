@@ -9,7 +9,7 @@
         />
         <div>
             <h3 class="text-2xl">
-                <a href="/movies/{{ $movie->id }}">{{ $movie->title }}</a>
+                <a href="{{ route('movies.show', ['movie' => $movie->id]) }}">{{ $movie->title }}</a>
             </h3>
             <div class="text-base mt-4">
                 <b>Description:</b> {{ Str::limit($movie->description, 100) }}

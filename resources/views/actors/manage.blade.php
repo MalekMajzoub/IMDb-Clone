@@ -21,7 +21,7 @@
                         </a>
                     </td>
                     <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
-                        <form method="POST" action="/cms/actors/{{ $actor->id }}">
+                        <form method="POST" action="{{ route('actors.destroy', ['actor' => $actor->id]) }}">
                         @csrf
                         @method('DELETE')
                         <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
@@ -41,7 +41,7 @@
     </x-card>
 
     <x-card class="mt-4 p-2 px-10 flex space-x-6">
-        <a href="/cms/actors/create">
+        <a href="{{ route('actors.create') }}">
             <i class='fa fa-plus' style='color: #19a922'></i> Add
         </a>
     </x-card>

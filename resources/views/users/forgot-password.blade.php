@@ -7,7 +7,7 @@
             <p class="mb-4">No Worries. Please provide your registered email.</p>
         </header>
 
-        <form method="POST" action="/users/forgotpassword">
+        <form method="POST" action="{{ route('users.forgotPassword') }}">
             @csrf
             <div class="mb-6">
                 <label for="email" class="inline-block text-lg mb-2">Email</label>

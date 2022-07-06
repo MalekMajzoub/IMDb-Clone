@@ -4,9 +4,9 @@
         @if(Auth::guest())
         <div>
             <a
-                href="/register"
+                href="{{ route('users.login') }}"
                 class="inline-block border-2 border-white text-white py-2 px-4 rounded-xl uppercase mt-2 hover:text-black hover:border-black">
-                Sign Up to rate your favorite movie
+                Sign In to rate your favorite movie
             </a>
         </div>
         @endif
