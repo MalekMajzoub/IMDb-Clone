@@ -59,7 +59,6 @@ Route::group(['controller' => UserController::class, 'as' => 'users.'], function
     Route::post('/users/forgotpassword', 'forgotPassword')->name('forgotPassword'); // Forgot Password Form
 });
 
-// No URL Found
 Route::any('{url}', function () {
     return redirect('/');
 })->where('url', '.*');

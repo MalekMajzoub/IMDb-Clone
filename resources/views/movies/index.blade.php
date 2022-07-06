@@ -13,7 +13,7 @@
 @endforeach
 
 @else
-<p>No listings found!</p>
+<p>No movies found!</p>
 @endunless
 </div>
 
