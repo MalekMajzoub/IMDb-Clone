@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <div class="mb-6">
                 <button class="bg-yellow-500 text-white rounded py-2 px-4 hover:bg-black">
                     Add/Edit Category
