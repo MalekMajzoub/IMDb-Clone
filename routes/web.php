@@ -25,8 +25,8 @@ Route::group(['middleware' => 'role:admin', 'prefix' => 'cms'], function () {
 
     Route::group(['controller' => CategoryController::class, 'prefix' => 'categories', 'as' => 'categories.'], function () {
         Route::get('/managecategories', 'manage')->name('manage'); // Manage Categories
-        Route::get('/create', 'create')->name('create'); // Show Category Create Form 
-        Route::post('/store', 'store')->name('store'); // Store Category Data 
+        Route::get('/create', 'create')->name('create'); // Show Category Create Form
+        Route::post('/store', 'store')->name('store'); // Store Category Data
         Route::get('/{category}/edit', 'edit')->name('edit'); // Show Category Edit Form
         Route::put('/{category}', 'update')->name('update'); // Update Category
         Route::delete('/{category}', 'destroy')->name('destroy'); // Delete Category
@@ -35,8 +35,8 @@ Route::group(['middleware' => 'role:admin', 'prefix' => 'cms'], function () {
     Route::group(['controller' => ActorController::class, 'prefix' => 'actors', 'as' => 'actors.'], function () {
         Route::get('/manageactors',  'manage')->name('manage'); // Manage Actors
         Route::get('/create',  'create')->name('create'); // Show Actor Create Form
-        Route::post('/store',  'store')->name('store'); // Store Actor Data  
-        Route::get('/{actor}/edit',  'edit')->name('edit'); // Show Actor Edit Form   
+        Route::post('/store',  'store')->name('store'); // Store Actor Data
+        Route::get('/{actor}/edit',  'edit')->name('edit'); // Show Actor Edit Form
         Route::put('/{actor}',  'update')->name('update'); // Update Actor
         Route::delete('/{actor}',  'destroy')->name('destroy'); // Delete Actor
     });
@@ -55,7 +55,7 @@ Route::group(['controller' => UserController::class, 'as' => 'users.'], function
     Route::get('/login', 'login')->middleware('guest')->name('login'); // Show Login Form
     Route::post('/logout', 'logout')->middleware('auth')->name('logout'); // Log User Out
     Route::post('/users/authenticate', 'authenticate')->name('authenticate'); // Login User
-    Route::get('/users/forgotpasswordform', 'forgotPasswordForm')->name('forgotPasswordForm'); // Show Forgot Password Form 
+    Route::get('/users/forgotpasswordform', 'forgotPasswordForm')->name('forgotPasswordForm'); // Show Forgot Password Form
     Route::post('/users/forgotpassword', 'forgotPassword')->name('forgotPassword'); // Forgot Password Form
 });
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ActorRequests\StoreActorRequest;
+use App\Http\Requests\ActorRequests\UpdateActorRequest;
 use App\Models\Actor;
 use Illuminate\Http\Request;
 
@@ -17,22 +19,15 @@ class ActorController extends Controller
         return view('actors.create');
     }
 
-    public function store(Request $request) // Store actor data
+    public function store(StoreActorRequest $request) // Store actor data
     {
-        $formFields = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'gender' => 'required',
-            'image' => 'sometimes',
-            'dob' => ['required', 'date'],
-            'nationality' => 'required',
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('image')) {
-            $formFields['image'] = $request->file('image')->store('logos', 'public');
+            $validated['image'] = $request->file('image')->store('logos', 'public');
         }
 
-        Actor::create($formFields);
+        Actor::create($validated);
 
         return redirect()->route('actors.manage');
     }
@@ -42,22 +37,15 @@ class ActorController extends Controller
         return view('actors.edit', ['actor' => $actor]);
     }
 
-    public function update(Request $request, Actor $actor) // Update Movie
+    public function update(UpdateActorRequest $request, Actor $actor) // Update Movie
     {
-        $formFields = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'gender' => 'required',
-            'image' => 'sometimes',
-            'dob' => ['required', 'date'],
-            'nationality' => 'required',
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('image')) {
-            $formFields['image'] = $request->file('image')->store('logos', 'public');
+            $validated['image'] = $request->file('image')->store('logos', 'public');
         }
 
-        $actor->update($formFields);
+        $actor->update($validated);
 
         return redirect()->route('actors.manage');
     }

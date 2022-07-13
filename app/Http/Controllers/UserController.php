@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequests\AuthenticateUserRequest;
+use App\Http\Requests\UserRequests\ForgotPasswordUserRequest;
+use App\Http\Requests\UserRequests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -16,16 +19,12 @@ class UserController extends Controller
         return view('users.register');
     }
 
-    public function store(Request $request) // Create New User
+    public function store(StoreUserRequest $request) // Create New User
     {
-        $formFields = $request->validate([
-            'name' => ['required', 'min:3'],
-            'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => ['required', 'confirmed', 'min:6']
-        ]);
+        $validated = $request->validated();
 
-        $formFields['password'] = Hash::make($formFields['password']);
-        $user = User::create($formFields);
+        $validated['password'] = Hash::make($validated['password']);
+        $user = User::create($validated);
         auth()->login($user);
         return redirect()->route('movies.all');
     }
@@ -44,14 +43,11 @@ class UserController extends Controller
         return view('users.login');
     }
 
-    public function authenticate(Request $request) // Authenticate User
+    public function authenticate(AuthenticateUserRequest $request) // Authenticate User
     {
-        $formFields = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => 'required'
-        ]);
+        $validated = $request->validated();
 
-        if (auth()->attempt($formFields)) {
+        if (auth()->attempt($validated)) {
             $request->session()->regenerate();
             if (auth()->user()->hasRole('admin')) {
                 return redirect()->route('movies.manage');
@@ -68,10 +64,11 @@ class UserController extends Controller
         return view('users.forgot-password');
     }
 
-    public function forgotPassword(Request $request) // forgot password
+    public function forgotPassword(ForgotPasswordUserRequest $request) // forgot password
     {
-        $user = User::where('email', $request['email'])->first();
-        if ($user->exists()) {
+        $validated = $request->validated();
+        $user = User::where('email', $validated['email'])->first();
+        if ($user) {
             $new_password = Str::random(8);
             $user->password = Hash::make($new_password);
             $user->save();

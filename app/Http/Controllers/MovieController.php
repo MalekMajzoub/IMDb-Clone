@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MovieRequests\AddActorMovieRequest;
+use App\Http\Requests\MovieRequests\StoreMovieRequest;
+use App\Http\Requests\MovieRequests\UpdateMovieRequest;
 use App\Models\Actor;
 use App\Models\Category;
 use App\Models\Movie;
@@ -36,22 +39,15 @@ class MovieController extends Controller
         return view('movies.edit', ['movie' => $movie]);
     }
 
-    public function update(Request $request, Movie $movie) // Update Movie
+    public function update(UpdateMovieRequest $request, Movie $movie) // Update Movie
     {
-        $formFields = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'logo' => 'sometimes',
-            'trailer' => 'sometimes',
-            'release_date' => ['required', 'date'],
-            'production_date' => ['required', 'date'],
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('logo')) {
-            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+            $validated['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
-        $movie->update($formFields);
+        $movie->update($validated);
 
         return redirect()->route('movies.manage');
     }
@@ -62,22 +58,15 @@ class MovieController extends Controller
         return view('movies.create', ['actors' => $actors]);
     }
 
-    public function store(Request $request) // Store movie data
+    public function store(StoreMovieRequest $request) // Store movie data
     {
-        $formFields = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'logo' => 'sometimes',
-            'trailer' => 'sometimes',
-            'release_date' => ['required', 'date'],
-            'production_date' => ['required', 'date'],
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('logo')) {
-            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+            $validated['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
-        Movie::create($formFields);
+        Movie::create($validated);
 
         return redirect()->route('movies.manage');
     }
@@ -95,11 +84,9 @@ class MovieController extends Controller
         return view('movies.cast-edit', ['movie' => $movie, 'actors' => $actors]);
     }
 
-    public function addEditActors(Request $request, Movie $movie) // Add/Edit Actors
+    public function addEditActors(AddActorMovieRequest $request, Movie $movie) // Add/Edit Actors
     {
-        $request->validate([
-            'character_name' => 'required',
-        ]);
+        $validated = $request->validated();
 
         $actor_id = $request->input('id');
         $character_name = $request->input('character_name');
@@ -123,7 +110,7 @@ class MovieController extends Controller
         return view('movies.category-edit', ['movie' => $movie, 'categories' => $categories]);
     }
 
-    public function addEditCategories(Request $request, Movie $movie) // Add/Edit Category 
+    public function addEditCategories(Request $request, Movie $movie) // Add/Edit Category
     {
         $category_id = $request->input('id');
         $hasCategory = $movie->categories()->where('category_id', $category_id)->exists();

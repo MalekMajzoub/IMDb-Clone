@@ -11,18 +11,20 @@
             @csrf
             <div class="mb-6">
                 <label for="email" class="inline-block text-lg mb-2">Email</label>
-                <input
-                    type="email"
-                    class="border border-gray-200 rounded p-2 w-full"
-                    name="email"
-                    value="{{ old('email') }}"
-                />
+                <input type="email" class="border border-gray-200 rounded p-2 w-full" name="email"
+                    value="{{ old('email') }}" />
                 @error('email')
                     <p class="text-red-500 text-xs mt-1"></p>{{ $message }}
                 @enderror
             </div>
             <div class="mb-6">
-                <button type="submit" class="bg-yellow-500 text-white py-2 px-4 hover:bg-black rounded">Send Email</button>
+                <button type="submit" class="bg-yellow-500 text-white py-2 px-4 hover:bg-black rounded">Send
+                    Email</button>
+            </div>
+            <div class="mt-8">
+                <p>
+                    <a href="{{ route('users.login') }}" class="text-yellow-600 font-bold">Back</a>
+                </p>
             </div>
         </form>
     </x-card>
