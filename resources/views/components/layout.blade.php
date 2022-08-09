@@ -13,7 +13,7 @@
             referrerpolicy="no-referrer"
         />
         <script src="https://cdn.tailwindcss.com"></script>
-        <title>Foo IMDB Clone</title>
+        <title>IMDB Clone</title>
     </head>
     <body class="mb-48" flex>
         <nav class="flex justify-between items-center mb-4">
@@ -21,6 +21,8 @@
             <a href="/">
                 <img class="w-24" src="{{ asset('images/logo.png') }}" alt="" class="logo"/>
             </a>
+            @else
+                <h1 class="text-lg font-bold uppercase">Dashboard</h1>
             @endunlessrole
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
